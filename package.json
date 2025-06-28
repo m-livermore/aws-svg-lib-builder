@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
   "lint": "eslint .",
-  "lint:fix": "eslint --fix ."
+  "lint:fix": "eslint --fix .",
+  "icons:update": "node scripts/download.js && node scripts/restructure.js && node scripts/rename.js && node scripts/svg-title.js && node scripts/generate-helper-pages.js"
   },
   "repository": {
     "type": "git",

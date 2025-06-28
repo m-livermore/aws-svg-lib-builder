@@ -65,7 +65,6 @@ function cleanTitle(raw) {
   let s = raw;
   if (s.includes("/")) s = s.split("/").pop();      // last path segment
   s = s.replace(/^(?:Arch_|Res_)/i, "");            // prefixes
-  s = s.replace(/Amazon|AWS/gi, "");                // brands
   s = s.replace(/_\d+$/i, "");                      // size suffixes
   s = s.replace(/__+/g, "_");                       // doubles
   s = s.replace(/^[-_]+|[-_]+$/g, "");              // trim
