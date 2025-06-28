@@ -1,0 +1,33 @@
+{
+  "name": "aws-svg-lib-builder",
+  "version": "1.0.0",
+  "description": "Constructs local library and quick-reference for up to date AWS SVG icons.",
+  "main": "index.js",
+  "scripts": {
+  "lint": "eslint .",
+  "lint:fix": "eslint --fix ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-livermore/aws-svg-lib-builder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/m-livermore/aws-svg-lib-builder/issues"
+  },
+  "homepage": "https://github.com/m-livermore/aws-svg-lib-builder#readme",
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "cheerio": "^1.1.0",
+    "fs-extra": "^11.3.0",
+    "glob": "^11.0.3",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.0",
+    "eslint": "^9.30.0",
+    "globals": "^16.2.0"
+  }
+}
