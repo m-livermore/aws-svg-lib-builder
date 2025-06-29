@@ -29,7 +29,7 @@ The whole pipeline is handled by five single-file scripts with no runtime framew
 
 1.  Clone the repo:
     ```bash
-    git clone [https://github.com/m-livermore/aws-svg-lib-builder.git](https://github.com/m-livermore/aws-svg-lib-builder.git)
+    git clone https://github.com/m-livermore/aws-svg-lib-builder.git
     ```
 2.  Go into the directory:
     ```bash
