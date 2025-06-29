@@ -1,139 +1,79 @@
-# AWS Architecture Icons Toolkit
+# AWS SVG Lib Builder
 
-*A small, dependency‑light toolchain for fetching, cleaning, and browsing the official AWS Architecture Icons.*
+A small collection of scripts that automates downloading and cleaning the official AWS Architecture Icons to make them easier to use in web development and diagramming projects.
 
----
 
-## ✨ What this project does
+## What it does
 
-1. **Fetches** the latest public *Asset Package* ZIP published by AWS.
-2. **Deduplicates** downloads via SHA‑256 so repeat runs are instant when nothing changed.
-3. **Cleans & reorganises** every SVG – flattening the directory structure, standardizing file‑names, and removing legacy prefixes that clutter Git diffs.
-4. **Normalizes** the internal `<title>` tag of each SVG **while preserving the full service name, including the required “AWS/ Amazon” prefix**.
-5. **Generates** a tiny static site so you can browse, search, and copy the icons without installing drawing software.
+The official AWS icon set is a great resource, but using it directly can be a hassle. The directory structure is deeply nested, filenames aren't always consistent, and the SVGs themselves can be a bit messy for version control.
 
-Five single‑file Node scripts (see **/scripts**) handle the whole pipeline – no Webpack, no TypeScript, no runtime framework.
+This project is a simple toolchain that smooths out those rough edges. It's just a handful of Node.js scripts that:
 
----
+1.  **Fetches** the latest official icon package from AWS.
+2.  **Deduplicates** downloads so you don't re-download unchanged files.
+3.  **Flattens** the complex directory structure into a single `aws-icons/` folder.
+4.  **Renames** every icon to a consistent `kebab-case` format.
+5.  **Cleans** the internal `<title>` tag of each SVG for cleaner Git diffs.
+6.  **Generates** a simple, static HTML page so you can easily browse, search, and copy icons.
 
-## Folder overview
+The whole pipeline is handled by five single-file scripts with no runtime frameworks, TypeScript, or complex build tools.
 
-```text
-.
-├── scripts/               # All automation lives here
-├── demo/                  # Sample run – cleaned icons + helper pages
-│   ├── aws-icons/         # ≈4 000 tidy SVGs
-│   └── aws-svg-helper/    # Static browser
-├── LICENSE                # MIT for *this* codebase
-└── README.md              # You are here
-```
-
-> **Heads‑up:** The scripts default to the repo root.  Pass `--source`, `--dest`, or `--root` flags to point them at another folder (e.g. `out/` in CI).
-
----
-
-## Getting started
+## Getting Started
 
 ### Prerequisites
 
-* Node **18 LTS** or newer
-* macOS, Linux, or WSL (PowerShell works but watch quoting)
+* [Node.js](https://nodejs.org/) (v18 LTS or newer)
+* macOS, Linux, or WSL
 
-```bash
-# 1. Pull runtime deps
-npm ci
+### Setup
 
-# 2. Fire the full pipeline
-npm run icons:update   # shorthand for the five steps below
-```
+1.  Clone the repo:
+    ```bash
+    git clone [https://github.com/m-livermore/aws-svg-lib-builder.git](https://github.com/m-livermore/aws-svg-lib-builder.git)
+    ```
+2.  Go into the directory:
+    ```bash
+    cd aws-svg-lib-builder
+    ```
+3.  Install the single dependency (ESLint for development):
+    ```bash
+    npm install
+    ```
 
-> `icons:update` is defined in **package.json** – tweak it if you prefer an `out/` folder or want extra flags.
+### Running the Scripts
 
-### Manual execution
-
-```bash
-node scripts/download.js                             # → raw-aws-icons/
-node scripts/restructure.js  --source raw-aws-icons  # → aws-icons/
-node scripts/rename.js       --source aws-icons      # filenames
-node scripts/svg-title.js    --root   aws-icons      # <title> tags
-node scripts/generate-helper-pages.js --dest aws-svg-helper
-                                                    # static browser
-```
-
-Open **aws-svg-helper/index.html** afterwards and you’re off.
-
----
-
-## CLI reference
-
-| Script                     | Job                                                    | Popular flags                |
-| -------------------------- | ------------------------------------------------------ | ---------------------------- |
-| `download.js`              | Fetch ZIP, verify checksum                             | `--dry-run` *(no extract)*   |
-| `restructure.js`           | Flatten + clean tree                                   | `-s, --source` · `--dry-run` |
-| `rename.js`                | Kebab‑case filenames (keeps *internal* names intact)   | `--dry-run`                  |
-| `svg-title.js`             | Sync `<title>` with filename (keeps AWS/Amazon prefix) | `-r, --root`                 |
-| `generate-helper-pages.js` | Build static browser                                   | `-d, --dest` · `--dry-run`   |
-
-All scripts are idempotent and colourise output with plain ANSI.
-
----
-
-## Brand & naming rules
-
-AWS ships a short *Usage Guidelines* sheet with every icon release.  The key points you need to respect – and that this toolkit automates – are:
-
-* **Always include “AWS” or “Amazon” in the service’s first visible label.**  This applies to SVG `<title>` tags as they are exposed to screen‑readers.
-* **Do not edit colours, aspect ratio, or shapes.** Resizing is fine; stretching or recolouring is not.
-* **Only use the icons to depict workloads that run (or will run) on AWS.**  No product logos or swag.
-* **Add the AWS attribution line somewhere in your doc or footnote.**  See below for a copy‑paste snippet.
-
-Filenames in your repo may omit the prefix for convenience; the important part is what appears to end‑users.
-
----
-
-## Updating to new AWS releases
-
-AWS typically refreshes the library three times a year (late Jan, Apr, Jul).  When that happens simply run:
+To update your icon library, run the main command:
 
 ```bash
 npm run icons:update
-```
+````
 
-`download.js` spots the new checksum and cascades the other steps automatically.
+This will run all the scripts in order, giving you a fresh `aws-icons/` directory and an updated `aws-svg-helper/` browser.
 
----
+## Script Reference
+
+You can also run the scripts individually if you only need to perform a specific task.
+
+| Script | Command | Description |
+|---|---|---|
+| **Download** | `node scripts/download.js` | Fetches the ZIP from AWS and verifies its checksum. |
+| **Restructure** | `node scripts/restructure.js` | Flattens the directory tree. |
+| **Rename** | `node scripts/rename.js` | Standardizes all filenames to kebab-case. |
+| **Clean Titles** | `node scripts/svg-title.js` | Syncs the SVG `<title>` tag with the filename. |
+| **Build Helper** | `node scripts/generate-helper-pages.js` | Builds the static `index.html` for Browse icons. |
+
+## A Note on AWS Brand Guidelines
+
+When you use these icons, remember that they are the property of Amazon Web Services, Inc. Be sure to follow their branding and attribution rules, which include:
+
+  * Using "AWS" or "Amazon" in the service's first visible label.
+  * Not editing the colors or shapes of the icons.
+  * Adding an attribution line in your document or footnote.
 
 ## Contributing
 
-Found a weird edge‑case filename or an SVG that breaks parsing?  PRs are welcome.  Please:
+Feel free to open an issue or submit a pull request. If you're making changes, please run the linter (`npm run lint`) and keep the console output easy to read on both light and dark terminals.
 
-1. Run `npm run lint` (ESLint flat‑config).
-2. Keep console output legible on dark & light terminals.
-3. Add a unit test if you fix a parsing bug.
+## License
 
----
-
-## License & attribution
-
-The code in this repository is released under the **MIT License**.
-
-The AWS architecture icons are property of Amazon Web Services, Inc. (AWS), sourced from the official [AWS Architecture Icons](https://aws.amazon.com/architecture/icons/) page and used under the [AWS Trademark Guidelines](https://aws.amazon.com/trademark-guidelines/).
-
-In compliance with these guidelines, the following notices are provided:
-
-> © 2025, Amazon Web Services, Inc. or its affiliates.
->
-> AWS is a trademark of Amazon.com, Inc. or its affiliates.
-
----
-
-
-### Maintainer
-
-|             |                                       |
-| ----------- | ------------------------------------- |
-| **Author**  | Mason Livermore – [@m-livermore](https://github.com/m-livermore)                   |
-| **Website** | masonlivermore.com |
-
-
-> *Happy diagramming!*
+The code in this repository is released under the **MIT License**. The AWS architecture icons themselves are property of Amazon Web Services, Inc.
